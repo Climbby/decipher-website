@@ -1,5 +1,7 @@
 import { showCoinflipAnimation } from "./games/coinflip.js";
 
+window.history;
+
 export function socketEvents() {
 
     socket.on("connect", () => {
@@ -44,7 +46,8 @@ export function socketEvents() {
     socket.on("roulette_result", data => {
       const strip = document.getElementById('roulette-row');
       const resultText = document.getElementById('roulette-result');
-      
+      history = data.history;
+        
       // if a spin is happening, start animation
     
       if (data.result && !data.just_spun) {
@@ -131,14 +134,14 @@ export function socketEvents() {
             resultText.textContent = `It landed on ${finalSymbol}`;
           }, 2000);
           delayedBalanceUpdate(2000);
-          updateHistory(data.history);
+          updateHistory(history);
     
           document.getElementById("your-bets").innerHTML = "";
         }, 50);
     
       } else {
         // if no spin yet (page just loaded), just update history
-        updateHistory(data.history);
+        updateHistory(history);
       }
     
       // Always update timer if available
